@@ -1,8 +1,10 @@
-VERSION ?= noble-1.0.0
+VERSION ?= bookworm-1.0.0
+BASE_IMAGE ?= debian:bookworm-slim
+export QEMU_ARCH ?= amd64
 ifdef BASE_IMAGE
 	BUILD_ARG = --build-arg BASE_IMAGE=$(BASE_IMAGE)
 	ifndef NAME
-		NAME = phusion/baseimage-$(subst :,-,${BASE_IMAGE})
+		NAME = pinidh/baseimage-$(subst :,-,${BASE_IMAGE})
 	endif
 else
 	NAME ?= phusion/baseimage
@@ -23,7 +25,7 @@ VERSION_ARG ?= $(VERSION)
 all: build
 
 build:
-	docker build --no-cache -t $(NAME):$(VERSION_ARG) $(BUILD_ARG) --build-arg QEMU_ARCH=$(QEMU_ARCH) --platform $(PLATFORM) --rm image
+	docker build -t $(NAME):$(VERSION_ARG) $(BUILD_ARG) --build-arg QEMU_ARCH=$(QEMU_ARCH) --rm image
 
 build_multiarch:
 	env NAME=$(NAME) VERSION=$(VERSION_ARG) ./build-multiarch.sh
