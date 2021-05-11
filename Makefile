@@ -1,4 +1,4 @@
-VERSION ?= bookworm-1.0.0
+VERSION ?= $(shell date -I)
 BASE_IMAGE ?= debian:bookworm-slim
 export QEMU_ARCH ?= amd64
 ifdef BASE_IMAGE
